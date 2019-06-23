@@ -39,4 +39,8 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
-      - run: gradle build
+      # run tests!
+      - run: ./gradlew build
+
+      # run sonar:
+      - run: ./gradlew sonarqube -Dsonar.projectKey=interceptor2048_project-jdp-1901-01 -Dsonar.organization=interceptor2048-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=19dcd8ea2675ec422cf4cadec97927ee84b27bec
