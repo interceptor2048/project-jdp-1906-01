@@ -17,7 +17,7 @@ public class ProductController {
 
     @RequestMapping(method = RequestMethod.GET, value = "getProduct")
     public ProductDto getProduct(@RequestParam("productId") Long productId){
-        return new ProductDto(1L, "product1", "description1", 1.00);
+        return new ProductDto();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createProduct")
@@ -29,6 +29,6 @@ public class ProductController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteProduct")
-    public void Product(@RequestParam("productId") Long productId){}
+    public void deleteProduct(@RequestParam("productId") Long productId){}
 
 }
