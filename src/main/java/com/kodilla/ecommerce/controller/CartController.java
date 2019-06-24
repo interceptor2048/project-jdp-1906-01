@@ -1,4 +1,4 @@
-package com.kodilla.ecommercee.controller;
+package com.kodilla.ecommerce.controller;
 
 public class CartController {
 }
