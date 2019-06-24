@@ -7,28 +7,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/ecommercee/order")
+@RequestMapping("/v1/ecommerce/order")
 public class OrderController {
-    @RequestMapping(method = RequestMethod.GET, value = "getOrders")
+    @GetMapping(value = "getOrders")
     public List<OrderDto> getOrders() {
         return new ArrayList<>();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createOrder")
-    public void createOrders(@RequestBody OrderDto order) {
+    @PostMapping(value = "createOrder")
+    public void createOrder(@RequestBody OrderDto order) {
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getOrder")
+    @GetMapping(value = "getOrder")
     public OrderDto getOrder(@RequestParam("orderId") Long orderId) {
         return new OrderDto(1, 2);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateOrder")
+    @PutMapping(value = "updateOrder")
     public OrderDto updateOrder(@RequestBody OrderDto order) {
         return order;
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteOrder")
+    @DeleteMapping(value = "deleteOrder")
     public void deleteOrder(@RequestParam("orderId") Long orderId) {
     }
 }

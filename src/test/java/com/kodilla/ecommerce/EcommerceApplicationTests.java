@@ -1,4 +1,4 @@
-package com.kodilla.ecommercee;
+package com.kodilla.ecommerce;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
