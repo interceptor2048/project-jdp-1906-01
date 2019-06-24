@@ -1,63 +1,35 @@
 package com.kodilla.ecommercee.domain;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.util.HashMap;
+import java.util.Map;
 
 @NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "ORDERS")
 public class OrderEntity {
-    private Long id;
-    private int quantity;
-    private ProductEntity product;
-    private UserEntity user;
-
-
-    public OrderEntity(Long id, int quantity) {
-        this.id = id;
-        this.quantity = quantity;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ORDER_ID", unique = true)
-    public Long getId(){
-        return id;
-    }
+    private Long id;
 
-    @Column(name = "QUANTITY")
-    @NotNull
-    public int getQuantity() {
-        return quantity;
-    }
-
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "PRODUCT_ID")
-    public ProductEntity getProduct() {
-        return product;
-    }
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "JOIN_ORDER_PRODUCT",
+            joinColumns = {@JoinColumn(name = "ORDER_ID", referencedColumnName = "ORDER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")}
+    )
+    @MapKeyColumn(name = "PRODUCT_QUANTITY")
+    private Map<Integer, ProductEntity> quantityOfProducts = new HashMap<>();
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "USER")
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setProduct(ProductEntity product){
-        this.product = product;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
-
-    private void setId(Long id) {
-        this.id = id;
-    }
-
-    private void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+    private UserEntity user;
 }
