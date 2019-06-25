@@ -24,14 +24,14 @@ public class CartEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", unique = true)
     private Long cartId;
-    ////     RELACJE MIĘDZY KLASAMI SĄ ZAKOMENTOWANE ZE WZGLĘDU NA BRAK ENCJI USER i GROUP
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
-    private List<ProductEntity> productList = new ArrayList<>();
+    //    RELACJE MIĘDZY KLASAMI SĄ ZAKOMENTOWANE ZE WZGLĘDU NA BRAK ENCJI USER i GROUP
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "CART")
+   // private List<ProductEntity> productList = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "cart")
-     private UserEntity user;
+   // @OneToOne(cascade = CascadeType.ALL, mappedBy = "CART")
+    // private UserEntity user;
 
-    @MapKeyColumn(name = "PRODUCT_QUANTITY")
-     private Map<Integer, CartEntity> quantityOfProductsInCart = new HashMap<>();
+    //@MapKeyColumn(name = "PRODUCT_QUANTITY")
+    // private Map<Integer, CartEntity> quantityOfProductsInCart = new HashMap<>();
 }
 
