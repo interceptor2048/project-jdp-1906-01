@@ -1,6 +1,6 @@
-package com.kodilla.ecommercee.repository;
+package com.kodilla.ecommerce.repository;
 
-import com.kodilla.ecommercee.domain.UserEntity;
+import com.kodilla.ecommerce.domain.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
