@@ -26,12 +26,13 @@ public class UserEntity {
     @Column(name = "SURNAME")
     private String surname;
 
-    @OneToMany(
-            targetEntity = OrderEntity.class,
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
+//    @OneToMany(
+//            targetEntity = OrderEntity.class,
+//            mappedBy = "user",
+//            cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY
+//    )
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     private List<OrderEntity> orders = new ArrayList<>();
 
     public UserEntity(String name, String surname) {

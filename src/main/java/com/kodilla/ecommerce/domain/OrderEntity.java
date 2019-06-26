@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,9 +30,14 @@ public class OrderEntity {
     )
     @MapKeyColumn(name = "PRODUCT_QUANTITY")
     private Map<Integer, ProductEntity> quantityOfProducts = new HashMap<>();
-//
-//    @NotNull
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+    @NotNull
+    @ManyToOne(
+            targetEntity = UserEntity.class,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "USER")
     private UserEntity user;
 

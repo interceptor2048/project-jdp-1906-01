@@ -17,8 +17,7 @@ import java.util.Map;
 @Table(name = "PRODUCTS")
 public class ProductEntity {
 
-    public ProductEntity(Long id, String name, String description, double price) {
-        this.id = id;
+    public ProductEntity(String name, String description, double price) {
         this.name = name;
         this.description = description;
         this.price = price;
