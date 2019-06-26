@@ -12,19 +12,19 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "GROUPS")
-public class GroupEntity {
-
+@Table(name = "USERS")
+public class UserEntity {
+    
     @Id
     @GeneratedValue
-    @Column(name = "GROUP_ID", unique = true)
+    @Column(name = "USER_ID", unique = true)
     private Long id;
 
-    @Column(name = "NAME")
-    private String name;
+    @Column(name = "USERNAME")
+    private String userName;
 
-//  TO BE ADDED ONCE PRODUCT ENTITY IS CREATED AND MERGED
-//
-//  @OneToMany(mappedBy = "")
-//  private List<> = new ArrayList<>();
+    @Column(name = "IS_BLOCKED")
+    private boolean isBlocked;
+
+    //RELATIONSHIPS TO BE ADDED ONCE OTHER ENTITIES ARE PRESENT
 }
