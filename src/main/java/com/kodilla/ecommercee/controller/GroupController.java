@@ -9,21 +9,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/ecommercee/group")
 public class GroupController {
-    @RequestMapping(method = RequestMethod.GET, value = "getGroups")
+    @GetMapping(value = "getGroups")
     public List<GroupDto> getGroups() {
         return new ArrayList<>();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createGroup")
+    @PostMapping(value = "createGroup")
     public void createGroup(@RequestBody GroupDto group) {
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getGroup")
+    @GetMapping(value = "getGroup")
     public GroupDto getGroup(@RequestParam("groupId") Long groupId) {
-        return new GroupDto(1);
+        return new GroupDto(1L);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateGroup")
+    @PutMapping(value = "updateGroup")
     public GroupDto updateGroup(@RequestBody GroupDto group) {
         return group;
     }
