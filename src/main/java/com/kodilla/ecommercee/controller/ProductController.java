@@ -29,6 +29,6 @@ public class ProductController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteProduct")
-    public void Product(@RequestParam("productId") Long productId){}
+    public void deleteProduct(@RequestParam("productId") Long productId){}
 
 }
