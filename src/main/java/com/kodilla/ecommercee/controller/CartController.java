@@ -5,30 +5,29 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1/ecommercee/cart")
 public class CartController {
-    @RequestMapping(method = RequestMethod.POST, value = "createCart")
+    @PostMapping(value = "createCart")
     public void createCart(@RequestBody CartDto cart){}
 
-    @RequestMapping(method = RequestMethod.GET, value = "getProductsFromCart")
+    @GetMapping(value = "getProductsFromCart")
     public CartDto getProducts(@RequestParam("productsId") Long productsId){
-        return new CartDto(1, 2);
+        return new CartDto(1L, 2L);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "addProductsToCart")
+    @GetMapping(value = "addProductsToCart")
     public CartDto addProducts(@RequestParam("productsId") Long productsId) {
-        return new CartDto(1, 2);
+        return new CartDto(1L, 2L);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteProductFromCart")
+    @DeleteMapping(value = "deleteProductFromCart")
     public CartDto deleteProduct(@RequestParam("productId") Long productsId) {
-        return new CartDto(1, 2);
+        return new CartDto(1L, 2L);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createOrder")
+    @PostMapping(value = "createOrder")
     public CartController createOrder(@RequestBody CartDto order){}
 }
