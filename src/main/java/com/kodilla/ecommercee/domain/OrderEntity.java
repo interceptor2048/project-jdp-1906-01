@@ -21,16 +21,19 @@ public class OrderEntity {
     private Long id;
 
     //     RELACJE MIĘDZY KLASAMI SĄ ZAKOMENTWANE ZE WZGLĘDU NA BRAK ENCJI USER i PRODUCT
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "JOIN_ORDER_PRODUCT",
-//            joinColumns = {@JoinColumn(name = "ORDER_ID", referencedColumnName = "ORDER_ID")},
-//            inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")}
-//    )
-//    @MapKeyColumn(name = "PRODUCT_QUANTITY")
-//    private Map<Integer, ProductEntity> quantityOfProducts = new HashMap<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "JOIN_ORDER_PRODUCT",
+            joinColumns = {@JoinColumn(name = "ORDER_ID", referencedColumnName = "ORDER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")}
+    )
+    @MapKeyColumn(name = "PRODUCT_QUANTITY")
+    private Map<Integer, ProductEntity> quantityOfProducts = new HashMap<>();
 //
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "USER")
-//    private UserEntity user;
+//    @NotNull
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "USER")
+    private UserEntity user;
+
+
 }
