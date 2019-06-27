@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -16,14 +15,18 @@ import javax.persistence.*;
 public class GroupEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "GROUP_ID", unique = true)
     private Long id;
 
     @Column(name = "NAME")
     private String name;
 
-//  TO BE ADDED ONCE PRODUCT ENTITY IS CREATED AND MERGED
+    public GroupEntity(String name) {
+        this.name = name;
+    }
+
+    //  TO BE ADDED ONCE PRODUCT ENTITY IS CREATED AND MERGED
 //
 //  @OneToMany(mappedBy = "")
 //  private List<> = new ArrayList<>();
