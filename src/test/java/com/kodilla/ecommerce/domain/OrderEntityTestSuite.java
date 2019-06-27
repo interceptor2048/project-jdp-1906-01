@@ -1,14 +1,11 @@
 package com.kodilla.ecommerce.domain;
 
 import com.kodilla.ecommerce.repository.OrderEntityRepository;
-import com.kodilla.ecommerce.repository.UserEntityRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
@@ -28,7 +25,7 @@ public class OrderEntityTestSuite {
         //given
         OrderEntity order1 = new OrderEntity();
         OrderEntity order2 = new OrderEntity();
-        UserEntity user = new UserEntity("Anna", "Szczech");
+        UserEntity user = new UserEntity("name", false);
         user.getOrders().add(order1);
         user.getOrders().add(order2);
         order1.setUser(user);
@@ -50,7 +47,7 @@ public class OrderEntityTestSuite {
     public void testAddingProductsToOrderEntity(){
         //given
         OrderEntity order = new OrderEntity();
-        UserEntity user = new UserEntity("Anna", "Szczech");
+        UserEntity user = new UserEntity("name", false);
         user.getOrders().add(order);
         order.setUser(user);
 

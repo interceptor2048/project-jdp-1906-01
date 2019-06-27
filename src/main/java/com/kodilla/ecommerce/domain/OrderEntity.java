@@ -21,7 +21,6 @@ public class OrderEntity {
     @Column(name = "ORDER_ID", unique = true)
     private Long id;
 
-    //     RELACJE MIĘDZY KLASAMI SĄ ZAKOMENTWANE ZE WZGLĘDU NA BRAK ENCJI USER i PRODUCT
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "JOIN_ORDER_PRODUCT",
@@ -37,7 +36,6 @@ public class OrderEntity {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "USER")
     private UserEntity user;
 
