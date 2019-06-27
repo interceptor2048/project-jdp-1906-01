@@ -18,13 +18,13 @@ public class GroupEntity {
     @Id
     @GeneratedValue
     @Column(name = "GROUP_ID", unique = true)
-    private Long idd;
+    private Long id;
 
     @Column(name = "NAME")
     private String name;
 
-//    TO BE ADDED ONCE PRODUCT ENTITY IS CREATED AND MERGED
-////
-////    @OneToMany(mappedBy = "")
-////    private List<> = new ArrayList<>();
+//  TO BE ADDED ONCE PRODUCT ENTITY IS CREATED AND MERGED
+//
+//  @OneToMany(mappedBy = "")
+//  private List<> = new ArrayList<>();
 }
