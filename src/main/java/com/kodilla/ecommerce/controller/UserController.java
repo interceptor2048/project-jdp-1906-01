@@ -2,10 +2,10 @@ package com.kodilla.ecommerce.controller;
 
 import com.kodilla.ecommerce.domain.dto.UserDto;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 
 @RestController
 @RequestMapping("v1/user")
