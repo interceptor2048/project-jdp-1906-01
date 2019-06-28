@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
+@NoArgsConstructor
 @Setter
 @Getter
 @Entity
