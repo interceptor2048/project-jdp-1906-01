@@ -1,13 +1,13 @@
-package com.kodilla.ecommercee;
+package com.kodilla.ecommerce;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EcommerceeApplication {
+public class EcommerceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(EcommerceeApplication.class, args);
+        SpringApplication.run(EcommerceApplication.class, args);
     }
 
 }
