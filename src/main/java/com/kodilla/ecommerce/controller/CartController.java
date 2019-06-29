@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/ecommerce/cart")
 public class CartController {
     @PostMapping(value = "createCart")
-    public void createCart(@RequestBody CartDto cart){}
+    public void createCart(@RequestBody CartDto cart) {
+    }
 
     @GetMapping(value = "getProductsFromCart")
-    public CartDto getProducts(@RequestParam("productsId") Long productsId){
+    public CartDto getProducts(@RequestParam("productsId") Long productsId) {
         return new CartDto(1L, 2L);
     }
 
@@ -30,7 +31,6 @@ public class CartController {
     }
 
     @PostMapping(value = "createOrder")
-    public CartController createOrder(@RequestBody CartDto order){
-        return new CartDto (1L, 2L);
+    public void createOrder(@RequestBody CartDto order) {
     }
 }

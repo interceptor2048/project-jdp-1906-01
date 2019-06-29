@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,17 +21,23 @@ public class OrderEntity {
     @Column(name = "ORDER_ID", unique = true)
     private Long id;
 
-    //     RELACJE MIĘDZY KLASAMI SĄ ZAKOMENTWANE ZE WZGLĘDU NA BRAK ENCJI USER i PRODUCT
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "JOIN_ORDER_PRODUCT",
-//            joinColumns = {@JoinColumn(name = "ORDER_ID", referencedColumnName = "ORDER_ID")},
-//            inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")}
-//    )
-//    @MapKeyColumn(name = "PRODUCT_QUANTITY")
-//    private Map<Integer, ProductEntity> quantityOfProducts = new HashMap<>();
-//
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "USER")
-//    private UserEntity user;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "JOIN_ORDER_PRODUCT",
+            joinColumns = {@JoinColumn(name = "ORDER_ID", referencedColumnName = "ORDER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")}
+    )
+    @MapKeyColumn(name = "PRODUCT_QUANTITY")
+    private Map<Integer, ProductEntity> quantityOfProducts = new HashMap<>();
+
+    @NotNull
+    @ManyToOne(
+            targetEntity = UserEntity.class,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "USER")
+    private UserEntity user;
+
+
 }

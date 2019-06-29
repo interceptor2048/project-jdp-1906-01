@@ -34,5 +34,9 @@ dependencies {
     compile('mysql:mysql-connector-java')
     runtimeOnly('com.h2database:h2')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
+<<<<<<< HEAD
     annotationProcessor('org.projectlombok:lombok')
+=======
+    compile('com.h2database:h2:1.4.199')
+>>>>>>> master
 }

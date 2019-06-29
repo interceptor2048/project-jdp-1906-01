@@ -17,8 +17,7 @@ import java.util.Map;
 @Table(name = "PRODUCTS")
 public class ProductEntity {
 
-    public ProductEntity(Long id, String name, String description, double price) {
-        this.id = id;
+    public ProductEntity(String name, String description, double price) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -27,20 +26,20 @@ public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PRODUCT_ID", unique = true)
-    public Long id;
+    private Long id;
 
     @Column(name = "NAME")
-    public String name;
+    private String name;
 
     @Column(name = "DESCRIPTION")
-    public String description;
+    private String description;
 
     @Column(name = "PRICE")
-    public double price;
+    private double price;
 
     //     RELACJE MIĘDZY KLASAMI SĄ ZAKOMENTWANE ZE WZGLĘDU NA BRAK ENCJI OrderEntity, CartEntity i GroupEntity
-//    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "quantityOfProducts")
-//    private List<OrderEntity> orders = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "quantityOfProducts")
+    private List<OrderEntity> orders = new ArrayList<>();
 //
 //    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    @JoinColumn(name = "GROUP")
