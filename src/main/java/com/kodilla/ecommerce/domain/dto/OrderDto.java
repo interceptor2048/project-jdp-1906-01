@@ -1,13 +1,18 @@
 package com.kodilla.ecommerce.domain.dto;
 
+import com.kodilla.ecommerce.domain.ProductEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class OrderDto {
     private long id;
-    private long productId;
+    private String user_name;
+    private List<OrderedProductDto> products;
 }
