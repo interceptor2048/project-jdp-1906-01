@@ -5,10 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @NoArgsConstructor
 @Setter
@@ -37,20 +34,19 @@ public class ProductEntity {
     @Column(name = "PRICE")
     private double price;
 
-    //     RELACJE MIĘDZY KLASAMI SĄ ZAKOMENTWANE ZE WZGLĘDU NA BRAK ENCJI OrderEntity, CartEntity i GroupEntity
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "quantityOfProducts")
-    private List<OrderEntity> orders = new ArrayList<>();
-//
+
+    @OneToMany(
+            mappedBy = "product",
+            cascade = {CascadeType.ALL},
+            orphanRemoval = true
+    )
+    private List<OrderProduct> orders = new ArrayList<>();
+
 //    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    @JoinColumn(name = "GROUP")
 //    private GroupEntity group;
-//
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "JOIN_PRODUCT_CART",
-//            joinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")},
-//            inverseJoinColumns = {@JoinColumn(name = "CART_ID", referencedColumnName = "CART_ID")}
-//    )
-//    @MapKeyColumn(name = "PRODUCT_QUANTITY")
-//    private Map<Integer, CartEntity> quantityOfProductsInCart = new HashMap<>();
+
+//    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "quantityOfProductsInCart")
+//    private List<CartEntity> carts = new ArrayList<>();
 }
+
