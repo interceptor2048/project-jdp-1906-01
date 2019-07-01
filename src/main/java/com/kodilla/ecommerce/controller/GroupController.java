@@ -9,6 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/ecommerce/group")
 public class GroupController {
+
     @GetMapping(value = "getGroups")
     public List<GroupDto> getGroups() {
         return new ArrayList<>();
@@ -28,3 +29,4 @@ public class GroupController {
         return group;
     }
 }
+
