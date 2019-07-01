@@ -1,11 +1,13 @@
 package com.kodilla.ecommerce.domain;
 
 import com.kodilla.ecommerce.repository.OrderEntityRepository;
+import com.kodilla.ecommerce.repository.OrderProductEntityRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
@@ -19,6 +21,9 @@ public class OrderEntityTestSuite {
 
     @Autowired
     private OrderEntityRepository orderEntityRepository;
+
+    @Autowired
+    private OrderProductEntityRepository orderProductEntityRepository;
 
     @Test
     public void testAddingSingleOrderToOrderEntity(){
@@ -47,26 +52,73 @@ public class OrderEntityTestSuite {
     public void testAddingProductsToOrderEntity(){
         //given
         OrderEntity order = new OrderEntity();
-        UserEntity user = new UserEntity("name", false);
+        UserEntity user = new UserEntity("Rafał Kowalsk", false);
         user.getOrders().add(order);
         order.setUser(user);
 
-        ProductEntity product1 = new ProductEntity("product1", "description1", 2.50);
-        ProductEntity product2 = new ProductEntity("product2", "description2", 5.50);
-        product1.getOrders().add(order);
-        product2.getOrders().add(order);
-        order.getQuantityOfProducts().put(3, product1);
-        order.getQuantityOfProducts().put(1, product2);
+        ProductEntity product1 = new ProductEntity("product3", "description3", 1.50);
+        ProductEntity product2 = new ProductEntity("product4", "description4", 9.00);
+
+        OrderProduct orderProduct1 = new OrderProduct(order, product1, 4);
+        OrderProduct orderProduct2 = new OrderProduct(order, product2, 1);
+
+        product1.getOrders().add(orderProduct1);
+        product2.getOrders().add(orderProduct2);
+
+        order.getProducts().add(orderProduct1);
+        order.getProducts().add(orderProduct2);
 
         //when
-        OrderEntity saveInDB = testEntityManager.persist(order);
-        OrderEntity getFromDB = orderEntityRepository.save(saveInDB);
-        Long id = order.getId();
+        OrderProduct saveInDB = testEntityManager.persist(orderProduct1);
+        OrderProduct getFromDB = orderProductEntityRepository.save(saveInDB);
+        Long id = orderProduct1.getId();
 
         //then
         assertEquals(getFromDB, saveInDB);
         assertEquals(id, saveInDB.getId());
-        assertTrue(saveInDB.getQuantityOfProducts().containsValue(product1));
-        assertTrue(saveInDB.getQuantityOfProducts().containsValue(product2));
+        assertTrue(saveInDB.getProduct().equals(product1));
     }
 }
+
+
+
+
+
+
+//TEST KTORY DODAJE DANE DO BAZY MYSQL
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
+//public class OrderEntityTestSuite {
+//
+////    @Autowired
+////    private TestEntityManager testEntityManager;
+//
+//    @Autowired
+//    private OrderEntityRepository orderEntityRepository;
+//
+//    @Autowired
+//    private OrderProductEntityRepository orderProductEntityRepository;
+//
+//    @Test
+//    public void testAddingProductsToOrderEntity(){
+//        //given
+//        OrderEntity order = new OrderEntity();
+//        UserEntity user = new UserEntity("Anna Szczech", true);
+//        user.getOrders().add(order);
+//        order.setUser(user);
+//
+//        ProductEntity product1 = new ProductEntity("product1", "description1", 5.50);
+//        ProductEntity product2 = new ProductEntity("product2", "description2", 2.40);
+//
+//        OrderProduct orderProduct1 = new OrderProduct(order, product1, 3);
+//        OrderProduct orderProduct2 = new OrderProduct(order, product2, 2);
+//
+//        product1.getOrders().add(orderProduct1);
+//        product2.getOrders().add(orderProduct2);
+//
+//        order.getProducts().add(orderProduct1);
+//        order.getProducts().add(orderProduct2);
+//
+//        orderProductEntityRepository.save(orderProduct1);
+//    }
+//}

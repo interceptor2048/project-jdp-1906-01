@@ -9,9 +9,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ProductDto {
+public class OrderedProductDto {
     private Long id;
     private String name;
     private String description;
     private double price;
+    private int quantity;
 }
