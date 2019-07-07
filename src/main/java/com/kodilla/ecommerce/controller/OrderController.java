@@ -1,7 +1,9 @@
 package com.kodilla.ecommerce.controller;
 
 import com.kodilla.ecommerce.controller.exceptions.OrderNotFoundException;
+import com.kodilla.ecommerce.controller.exceptions.ProductNotFoundException;
 import com.kodilla.ecommerce.controller.exceptions.UserNotFoundException;
+import com.kodilla.ecommerce.domain.ProductEntity;
 import com.kodilla.ecommerce.domain.UserEntity;
 import com.kodilla.ecommerce.domain.dto.OrderDto;
 import com.kodilla.ecommerce.maper.OrderMapper;
@@ -9,7 +11,10 @@ import com.kodilla.ecommerce.service.OrderDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -32,16 +37,21 @@ public class OrderController {
         return orderMapper.mapToOrderDto(orderDbService.getOrder(orderId).orElseThrow(OrderNotFoundException::new));
     }
 
+    @Transactional
     @PostMapping(value = "createOrder", consumes = APPLICATION_JSON_VALUE)
     public void createOrder(@RequestBody OrderDto orderDto) throws UserNotFoundException{
         UserEntity user = orderDbService.findUser(orderDto.getUser_name()).orElseThrow(UserNotFoundException::new);
-        orderDbService.addOrder(orderMapper.mapToOrder(orderDto, user));
+        checkIfProductsExist(orderDto);
+        List<ProductEntity> productEntityList = createProductList(orderDto);
+        orderDbService.addOrder(orderMapper.mapToOrder(orderDto, user, productEntityList));
     }
 
     @PutMapping(value = "updateOrder", consumes = APPLICATION_JSON_VALUE)
     public OrderDto updateOrder(@RequestBody OrderDto orderDto) {
         UserEntity user = orderDbService.findUser(orderDto.getUser_name()).orElseThrow(UserNotFoundException::new);
-        return orderMapper.mapToOrderDto(orderDbService.addOrder(orderMapper.mapToOrder(orderDto, user)));
+        checkIfProductsExist(orderDto);
+        List<ProductEntity> productEntityList = createProductList(orderDto);
+        return orderMapper.mapToOrderDto(orderDbService.addOrder(orderMapper.mapToOrder(orderDto, user, productEntityList)));
     }
 
     @DeleteMapping(value = "deleteOrder")
@@ -50,5 +60,17 @@ public class OrderController {
             throw new OrderNotFoundException();
         }
         orderDbService.deleteOrder(orderId);
+    }
+
+    private List<ProductEntity> createProductList(OrderDto orderDto) {
+        List<ProductEntity> productEntityList = new ArrayList<>();
+        orderDto.getProducts().stream()
+                .forEach(product -> productEntityList.add(orderDbService.findProduct(product.getName()).get()));
+        return productEntityList;
+    }
+
+    private void checkIfProductsExist (OrderDto orderDto) {
+        orderDto.getProducts().stream()
+                .forEach(product -> orderDbService.findProduct(product.getName()).orElseThrow(ProductNotFoundException::new));
     }
 }

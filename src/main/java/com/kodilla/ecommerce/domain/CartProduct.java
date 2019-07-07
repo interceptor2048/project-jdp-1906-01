@@ -1,28 +1,27 @@
 package com.kodilla.ecommerce.domain;
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Objects;
-
 
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "ORDER_PRODUCT")
-public class OrderProduct {
+@Table(name = "CART_PRODUCT")
+public class CartProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ORDER_PRODUCT_ID", unique = true, nullable = false)
+    @Column(name = "CART_PRODUCT_ID", unique = true, nullable = false)
     private Long id;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "ORDER_ID")
-    private OrderEntity order;
+    private CartEntity cart;
 
     @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_ID")
@@ -31,17 +30,16 @@ public class OrderProduct {
     @Column(name = "QUANTITY_OF_PRODUCTS")
     private int quantity;
 
-    public OrderProduct(Long id, OrderEntity order, ProductEntity product, int quantity) {
+    public CartProduct(Long id, CartEntity cart, ProductEntity product, int quantity) {
         this.id = id;
-        this.order = order;
+        this.cart = cart;
         this.product = product;
         this.quantity = quantity;
     }
 
-    public OrderProduct(OrderEntity order, ProductEntity product, int quantity) {
-        this.order = order;
+    public CartProduct(CartEntity cart, ProductEntity product, int quantity) {
+        this.cart = cart;
         this.product = product;
         this.quantity = quantity;
     }
 }
-
