@@ -19,20 +19,23 @@ public class GroupEntityTestSuite {
     @Autowired
     GroupDbService groupDbService;
 
-
     @Test
     public void testGetGroups() {
         //Given
         GroupEntity group1 = new GroupEntity("Group1");
-       // groupDbService.saveGroup(group1);
+        // groupDbService.saveGroup(group1);
         GroupEntity group2 = new GroupEntity("Group2");
-       // groupDbService.saveGroup(group2);
+        // groupDbService.saveGroup(group2);
         GroupEntity group3 = new GroupEntity("Group3");
         groupDbService.saveGroup(group3);
         //When
         List<GroupEntity> listGroups = groupDbService.getGroupsList();
         //Then
-        Assert.assertEquals(4, listGroups.size());
+        Assert.assertEquals(3, listGroups.size());
+        System.out.println(listGroups.get(0).getName());
+        System.out.println(listGroups.get(1).getName());
+        System.out.println(listGroups.get(2).getName());
+
     }
 
     @Test
@@ -68,12 +71,14 @@ public class GroupEntityTestSuite {
         groupDbService.saveGroup(group3);
         Long idTestedGroup = groupDbService.findGroup("Group3").get().getId();
         //When
-        GroupEntity group3Updated = new GroupEntity();
+        GroupEntity group3Updated = groupDbService.findGroup("Group3").get();
+        group3Updated.setName("Group3Updated");
         groupDbService.saveGroup(group3Updated);
         String groupNameAfterUpdate = groupDbService.getGroup(idTestedGroup).getName();
         //Then
-        Assert.assertEquals("Group3", groupNameAfterUpdate);
+        Assert.assertEquals("Group3Updated", groupNameAfterUpdate);
         groupDbService.deleteById(idTestedGroup);
     }
+
 }
 
