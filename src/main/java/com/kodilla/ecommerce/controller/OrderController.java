@@ -3,6 +3,7 @@ package com.kodilla.ecommerce.controller;
 import com.kodilla.ecommerce.controller.exceptions.OrderNotFoundException;
 import com.kodilla.ecommerce.controller.exceptions.ProductNotFoundException;
 import com.kodilla.ecommerce.controller.exceptions.UserNotFoundException;
+import com.kodilla.ecommerce.domain.OrderEntity;
 import com.kodilla.ecommerce.domain.ProductEntity;
 import com.kodilla.ecommerce.domain.UserEntity;
 import com.kodilla.ecommerce.domain.dto.OrderDto;
@@ -50,8 +51,9 @@ public class OrderController {
     public OrderDto updateOrder(@RequestBody OrderDto orderDto) {
         UserEntity user = orderDbService.findUser(orderDto.getUser_name()).orElseThrow(UserNotFoundException::new);
         checkIfProductsExist(orderDto);
-        List<ProductEntity> productEntityList = createProductList(orderDto);
-        return orderMapper.mapToOrderDto(orderDbService.addOrder(orderMapper.mapToOrder(orderDto, user, productEntityList)));
+        OrderEntity order = createOrder(orderDto.getId(), user, orderDto);
+        orderDbService.saveOrderProduct(order.getProducts().get(0));
+        return orderMapper.mapToOrderDto(order);
     }
 
     @DeleteMapping(value = "deleteOrder")
@@ -72,5 +74,14 @@ public class OrderController {
     private void checkIfProductsExist (OrderDto orderDto) {
         orderDto.getProducts().stream()
                 .forEach(product -> orderDbService.findProduct(product.getName()).orElseThrow(ProductNotFoundException::new));
+    }
+
+    private OrderEntity createOrder(Long id, UserEntity user, OrderDto orderDto){
+        List<ProductEntity> productEntityList = createProductList(orderDto);
+        OrderEntity order = orderDbService.findOrder(id).orElseThrow(OrderNotFoundException::new);
+        order.getProducts().clear();
+        order.setUser(user);
+        user.getOrders().add(order);
+        return orderMapper.mapToProducts(orderDto, order, productEntityList);
     }
 }

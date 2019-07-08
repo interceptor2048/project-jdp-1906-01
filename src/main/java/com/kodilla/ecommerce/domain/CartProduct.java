@@ -20,26 +20,19 @@ public class CartProduct {
     private Long id;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "ORDER_ID")
+    @JoinColumn(name = "CART_ID")
     private CartEntity cart;
 
     @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRODUCT_ID")
-    private ProductEntity product;
+    @JoinColumn(name = "PRODUCT_IN_CART_ID")
+    private ProductEntity productInCart;
 
     @Column(name = "QUANTITY_OF_PRODUCTS")
     private int quantity;
 
-    public CartProduct(Long id, CartEntity cart, ProductEntity product, int quantity) {
-        this.id = id;
-        this.cart = cart;
-        this.product = product;
-        this.quantity = quantity;
-    }
-
     public CartProduct(CartEntity cart, ProductEntity product, int quantity) {
         this.cart = cart;
-        this.product = product;
+        this.productInCart = product;
         this.quantity = quantity;
     }
 }

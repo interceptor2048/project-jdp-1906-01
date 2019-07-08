@@ -1,9 +1,6 @@
 package com.kodilla.ecommerce.service;
 
-import com.kodilla.ecommerce.domain.CartEntity;
-import com.kodilla.ecommerce.domain.CartProduct;
-import com.kodilla.ecommerce.domain.ProductEntity;
-import com.kodilla.ecommerce.domain.UserEntity;
+import com.kodilla.ecommerce.domain.*;
 import com.kodilla.ecommerce.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,5 +44,17 @@ public class CartDbService {
 
     public Optional<CartProduct> findCartProduct(final Long id) {
         return cartProductRepository.findById(id);
+    }
+
+    public CartProduct saveProductInCart(final CartProduct cartProduct) {
+        return cartProductRepository.save(cartProduct);
+    }
+
+    public OrderEntity saveOrder(final OrderEntity orderEntity){
+        return orderEntityRepository.save(orderEntity);
+    }
+
+    public Optional<CartEntity> findUserCart(String name){
+        return cartEntityRepository.retrieveCartWithUserName(name);
     }
 }

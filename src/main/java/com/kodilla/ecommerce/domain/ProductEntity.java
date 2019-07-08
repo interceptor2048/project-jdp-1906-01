@@ -43,16 +43,22 @@ public class ProductEntity {
             targetEntity = OrderProduct.class,
             mappedBy = "product",
             cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             orphanRemoval = true
     )
     private List<OrderProduct> orders = new ArrayList<>();
 
+    @OneToMany(
+            targetEntity = CartProduct.class,
+            mappedBy = "productInCart",
+            cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
+            fetch = FetchType.EAGER,
+            orphanRemoval = true
+    )
+    private List<CartProduct> productsInCart = new ArrayList<>();
+
 //    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    @JoinColumn(name = "GROUP")
 //    private GroupEntity group;
-
-//    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "quantityOfProductsInCart")
-//    private List<CartEntity> carts = new ArrayList<>();
 }
 

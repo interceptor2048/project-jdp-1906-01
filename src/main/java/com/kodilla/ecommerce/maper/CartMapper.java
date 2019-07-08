@@ -29,7 +29,7 @@ public class CartMapper {
     private List<CartProductDto> mapToProductDtoList(List<CartProduct> orderProductList){
         List<CartProductDto> productsInCart = new ArrayList<>();
         for (CartProduct orderProduct : orderProductList) {
-            productsInCart.add(new CartProductDto(orderProduct.getId(), orderProduct.getProduct().getName(), orderProduct.getProduct().getDescription(), orderProduct.getProduct().getPrice(), orderProduct.getQuantity()));
+            productsInCart.add(new CartProductDto(orderProduct.getId(), orderProduct.getProductInCart().getName(), orderProduct.getProductInCart().getDescription(), orderProduct.getProductInCart().getPrice(), orderProduct.getQuantity()));
         }
         return productsInCart;
     }

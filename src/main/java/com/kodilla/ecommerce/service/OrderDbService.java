@@ -52,11 +52,23 @@ public class OrderDbService {
         return userEntityRepository.findByUserName(userName);
     }
 
+    public Optional<OrderEntity> findOrder(final Long id) {
+        return orderEntityRepository.findById(id);
+    }
+
     public Optional<ProductEntity> findProduct(final String productName) {
         return productEntityRepository.findProductEntitiesByName(productName);
     }
 
     public Optional<OrderProduct> findOrderProduct(final Long id) {
         return orderProductEntityRepository.findById(id);
+    }
+
+    public OrderProduct saveOrderProduct(final OrderProduct orderProduct){
+        return orderProductEntityRepository.save(orderProduct);
+    }
+
+    public List<OrderEntity> findAllOrders(){
+        return orderEntityRepository.findAll();
     }
 }

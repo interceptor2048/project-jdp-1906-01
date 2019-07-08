@@ -25,6 +25,10 @@ public class OrderMapper {
         OrderEntity order = createOrder(orderDto);
         user.getOrders().add(order);
         order.setUser(user);
+        return mapToProducts(orderDto, order, productEntityList);
+    }
+
+    public OrderEntity mapToProducts(OrderDto orderDto, OrderEntity order, List<ProductEntity> productEntityList){
         List<OrderProduct> orderProducts = createOrderProductList(orderDto.getProducts(), order, productEntityList);
         addOrderToProduct(productEntityList, orderProducts);
         order.getProducts().addAll(orderProducts);

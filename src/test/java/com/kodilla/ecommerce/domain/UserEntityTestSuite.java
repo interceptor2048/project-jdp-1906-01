@@ -90,3 +90,24 @@ public class UserEntityTestSuite {
 
 
 
+////TEST KTORY DODAJE DANE DO BAZY MYSQL
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
+//public class UserEntityTestSuite {
+//
+//
+//    @Autowired
+//    private UserEntityRepository userEntityRepository;
+//
+//    @Autowired
+//    private OrderProductEntityRepository orderProductEntityRepository;
+//
+//    @Test
+//    public void testAddingSingleUserToUserEntity(){
+//        //given
+//        UserEntity user = new UserEntity("Anna Szczech", false);
+//
+//        //when
+//        userEntityRepository.save(user);
+//    }
+//}

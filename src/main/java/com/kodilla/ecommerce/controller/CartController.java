@@ -1,9 +1,7 @@
 package com.kodilla.ecommerce.controller;
 
 
-import com.kodilla.ecommerce.controller.exceptions.CartNotFoundException;
-import com.kodilla.ecommerce.controller.exceptions.ProductNotFoundInCartExcepton;
-import com.kodilla.ecommerce.controller.exceptions.UserNotFoundException;
+import com.kodilla.ecommerce.controller.exceptions.*;
 import com.kodilla.ecommerce.domain.*;
 import com.kodilla.ecommerce.domain.dto.CartDto;
 import com.kodilla.ecommerce.domain.dto.CartProductDto;
@@ -31,7 +29,12 @@ public class CartController {
     @PostMapping(value = "createCart")
     public void createCart(@RequestBody CartDto cartDto) {
         UserEntity user = cartDbService.findUser(cartDto.getUser_name()).orElseThrow(UserNotFoundException::new);
+        if (cartDbService.findUserCart(cartDto.getUser_name()).isPresent()) {
+            throw new UserCanHaveOnlyOneCartException();
+        }
+        checkIfUserIsBlock(user);
         cartDbService.addCart(cartMapper.mapToCart(cartDto, user));
+
     }
 
     @GetMapping(value = "getProductsFromCart")
@@ -40,16 +43,18 @@ public class CartController {
     }
 
     @GetMapping(value = "addProductsToCart")
-    public CartDto addProducts(@RequestParam("cartId") Long cartId, @RequestBody CartProductDto cartProductDto) {
+    public void addProducts(@RequestParam("cartId") Long cartId, @RequestBody CartProductDto cartProductDto) {
         CartEntity cart = cartDbService.getCart(cartId).orElseThrow(CartNotFoundException::new);
-        addProductToCartEntity(cart, cartProductDto);
-        return cartMapper.mapToCartDto(cart);
+        checkIfUserIsBlock(cart.getUser());
+        cartDbService.saveProductInCart(addProductToCartEntity(cart, cartProductDto));
+
     }
 
     @DeleteMapping(value = "deleteProductFromCart")
     public void deleteProduct(@RequestParam("cartId") Long cartId, @RequestParam("cartProductId") Long cartProductId) {
         CartEntity cart = cartDbService.getCart(cartId).orElseThrow(CartNotFoundException::new);
         CartProduct cartProduct = cartDbService.findCartProduct(cartProductId).orElseThrow(ProductNotFoundInCartExcepton::new);
+        checkIfUserIsBlock(cart.getUser());
         cart.getProducts().remove(cartProduct);
         cartDbService.addCart(cart);
     }
@@ -57,21 +62,37 @@ public class CartController {
     @PostMapping(value = "createOrder")
     public void createOrder(@RequestParam("cartId") Long cartId) {
         CartEntity cart = cartDbService.getCart(cartId).orElseThrow(CartNotFoundException::new);
-        createOrder(cart);
+        checkIfUserIsBlock(cart.getUser());
+        cartDbService.saveOrder(createOrder(cart));
         cart.getProducts().clear();
         cartDbService.addCart(cart);
     }
 
-    private void addProductToCartEntity(CartEntity cart, CartProductDto cartProductDto) {
+    private CartProduct addProductToCartEntity(CartEntity cart, CartProductDto cartProductDto) {
+        System.out.println(cartProductDto.getId() + " " + cartProductDto.getName() + " " + cartProductDto.getPrice() + " " + cartProductDto.getDescription() + " " + cartProductDto.getQuantity());
+        System.out.println(cart.getUser().getUserName());
         ProductEntity product = cartDbService.findProduct(cartProductDto.getName()).orElseThrow(CartNotFoundException::new);
-        cart.getProducts().add(new CartProduct(cart, product, cartProductDto.getQuantity()));
+        System.out.println(product.getName() + " " + product.getDescription() + " " + product.getPrice());
+        CartProduct cartProduct = new CartProduct(cart, product, cartProductDto.getQuantity());
+        product.getProductsInCart().add(cartProduct);
+        cart.getProducts().add(cartProduct);
+        return cartProduct;
     }
 
-    private void createOrder(CartEntity cart){
+    private OrderEntity createOrder(CartEntity cart) {
         OrderEntity order = new OrderEntity();
         order.setUser(cart.getUser());
         for (CartProduct product : cart.getProducts()) {
-            order.getProducts().add(new OrderProduct(order, product.getProduct(), product.getQuantity()));
+            OrderProduct orderProduct = new OrderProduct(order, product.getProductInCart(), product.getQuantity());
+            product.getProductInCart().getOrders().add(orderProduct);
+            order.getProducts().add(orderProduct);
+        }
+        return order;
+    }
+
+    private void checkIfUserIsBlock(UserEntity user) {
+        if (user.isBlocked()) {
+            throw new UserIsBlockException();
         }
     }
 

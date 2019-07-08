@@ -8,6 +8,14 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@NamedNativeQuery(
+        name = "CartEntity.retrieveCartWithUserName",
+        query = "SELECT * FROM CART " +
+                "JOIN USERS ON CART.USER = USERS.USER_ID " +
+                "WHERE USERS.USERNAME = :NAME",
+        resultClass = CartEntity.class
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,7 +29,7 @@ public class CartEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ORDER_ID", unique = true, nullable = false)
+    @Column(name = "CART_ID", unique = true, nullable = false)
     private Long id;
 
     @OneToMany(
