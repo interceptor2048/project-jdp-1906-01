@@ -1,20 +1,18 @@
 package com.kodilla.ecommerce.domain.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-public class CartDto {
+public class CartProductDto {
     private Long id;
-//    private Long productId;
-    private String user_name;
-    private List<CartProductDto> products;
+    private String name;
+    private String description;
+    private double price;
+    private int quantity;
 }

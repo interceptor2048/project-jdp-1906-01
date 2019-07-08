@@ -1,12 +1,15 @@
 package com.kodilla.ecommerce.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
+//@AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
@@ -15,6 +18,7 @@ import java.util.*;
 public class ProductEntity {
 
     public ProductEntity(String name, String description, double price) {
+//        this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -36,17 +40,25 @@ public class ProductEntity {
 
 
     @OneToMany(
+            targetEntity = OrderProduct.class,
             mappedBy = "product",
-            cascade = {CascadeType.ALL},
+            cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
+            fetch = FetchType.LAZY,
             orphanRemoval = true
     )
     private List<OrderProduct> orders = new ArrayList<>();
 
+    @OneToMany(
+            targetEntity = CartProduct.class,
+            mappedBy = "productInCart",
+            cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
+            fetch = FetchType.EAGER,
+            orphanRemoval = true
+    )
+    private List<CartProduct> productsInCart = new ArrayList<>();
+
 //    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    @JoinColumn(name = "GROUP")
 //    private GroupEntity group;
-
-//    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "quantityOfProductsInCart")
-//    private List<CartEntity> carts = new ArrayList<>();
 }
 
