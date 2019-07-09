@@ -41,7 +41,7 @@ public class OrderController {
     @Transactional
     @PostMapping(value = "createOrder", consumes = APPLICATION_JSON_VALUE)
     public void createOrder(@RequestBody OrderDto orderDto) {
-        UserEntity user = orderDbService.findUser(orderDto.getUser_name()).orElseThrow(UserNotFoundException::new);
+        UserEntity user = orderDbService.findUser(orderDto.getUserName()).orElseThrow(UserNotFoundException::new);
         checkIfProductsExist(orderDto);
         List<ProductEntity> productEntityList = createProductList(orderDto);
         orderDbService.addOrder(orderMapper.mapToOrder(orderDto, user, productEntityList));
@@ -49,7 +49,7 @@ public class OrderController {
 
     @PutMapping(value = "updateOrder", consumes = APPLICATION_JSON_VALUE)
     public OrderDto updateOrder(@RequestBody OrderDto orderDto) {
-        UserEntity user = orderDbService.findUser(orderDto.getUser_name()).orElseThrow(UserNotFoundException::new);
+        UserEntity user = orderDbService.findUser(orderDto.getUserName()).orElseThrow(UserNotFoundException::new);
         checkIfProductsExist(orderDto);
         OrderEntity order = createOrder(orderDto.getId(), user, orderDto);
         orderDbService.saveOrderProduct(order.getProducts().get(0));
