@@ -26,8 +26,8 @@ public class CartController {
 
     @PostMapping(value = "createCart")
     public void createCart(@RequestBody CartDto cartDto) {
-        UserEntity user = cartDbService.findUser(cartDto.getUser_name()).orElseThrow(UserNotFoundException::new);
-        if (cartDbService.findUserCart(cartDto.getUser_name()).isPresent()) {
+        UserEntity user = cartDbService.findUser(cartDto.getUserName()).orElseThrow(UserNotFoundException::new);
+        if (cartDbService.findUserCart(cartDto.getUserName()).isPresent()) {
             throw new UserCanHaveOnlyOneCartException();
         }
         checkIfUserIsBlock(user);
