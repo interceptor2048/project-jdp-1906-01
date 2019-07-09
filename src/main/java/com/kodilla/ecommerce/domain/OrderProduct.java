@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Objects;
+
 
 @NoArgsConstructor
 @Getter
@@ -15,17 +17,26 @@ public class OrderProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ORDER_PRODUCT_ID", unique = true)
+    @Column(name = "ORDER_PRODUCT_ID", unique = true, nullable = false)
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ORDER_ID")
     private OrderEntity order;
 
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "PRODUCT_ID")
     private ProductEntity product;
 
     @Column(name = "QUANTITY_OF_PRODUCTS")
     private int quantity;
+
+    public OrderProduct(Long id, OrderEntity order, ProductEntity product, int quantity) {
+        this.id = id;
+        this.order = order;
+        this.product = product;
+        this.quantity = quantity;
+    }
 
     public OrderProduct(OrderEntity order, ProductEntity product, int quantity) {
         this.order = order;

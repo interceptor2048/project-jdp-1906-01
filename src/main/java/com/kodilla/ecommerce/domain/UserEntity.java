@@ -16,8 +16,8 @@ import java.util.List;
 public class UserEntity {
 
     @Id
-    @GeneratedValue
-    @Column(name = "USER_ID", unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "USER_ID", unique = true, nullable = false)
     private Long id;
 
     @Column(name = "USERNAME")
@@ -26,14 +26,11 @@ public class UserEntity {
     @Column(name = "IS_BLOCKED")
     private boolean isBlocked;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "user")
     private List<OrderEntity> orders = new ArrayList<>();
 
     public UserEntity(String userName, boolean isBlocked) {
         this.userName = userName;
         this.isBlocked = isBlocked;
     }
-
-
-    //RELATIONSHIPS TO BE ADDED ONCE OTHER ENTITIES ARE PRESENT
 }

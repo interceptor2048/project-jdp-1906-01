@@ -21,13 +21,20 @@ public class OrderMapper {
                 .collect(Collectors.toList());
     }
 
-    public OrderEntity mapToOrder(OrderDto orderDto, UserEntity user) {
-        OrderEntity order = new OrderEntity();
-        order.setUser(user);
+    public OrderEntity mapToOrder(OrderDto orderDto, UserEntity user, List<ProductEntity> productEntityList) {
+        OrderEntity order = createOrder(orderDto);
         user.getOrders().add(order);
-        order.getProducts().addAll(mapToProductList(orderDto.getProducts(), order));
+        order.setUser(user);
+        return mapToProducts(orderDto, order, productEntityList);
+    }
+
+    public OrderEntity mapToProducts(OrderDto orderDto, OrderEntity order, List<ProductEntity> productEntityList){
+        List<OrderProduct> orderProducts = createOrderProductList(orderDto.getProducts(), order, productEntityList);
+        addOrderToProduct(productEntityList, orderProducts);
+        order.getProducts().addAll(orderProducts);
         return order;
     }
+
 
     public OrderDto mapToOrderDto(final OrderEntity order) {
         return new OrderDto(order.getId(), order.getUser().getUserName(), mapToProductDtoList(order.getProducts()));
@@ -36,19 +43,35 @@ public class OrderMapper {
     private List<OrderedProductDto> mapToProductDtoList(List<OrderProduct> orderProductList){
         List<OrderedProductDto> productsInOrder = new ArrayList<>();
         for (OrderProduct orderProduct : orderProductList) {
-            productsInOrder.add(new OrderedProductDto(orderProduct.getProduct().getId(), orderProduct.getProduct().getName(), orderProduct.getProduct().getDescription(), orderProduct.getProduct().getPrice(), orderProduct.getQuantity()));
+            productsInOrder.add(new OrderedProductDto(orderProduct.getId(), orderProduct.getProduct().getName(), orderProduct.getProduct().getDescription(), orderProduct.getProduct().getPrice(), orderProduct.getQuantity()));
         }
         return productsInOrder;
     }
 
-    private List<OrderProduct> mapToProductList(List<OrderedProductDto> products, OrderEntity order){
+    private List<OrderProduct> createOrderProductList(List<OrderedProductDto> orderedProductsDto, OrderEntity order, List<ProductEntity> productEntityList){
         List<OrderProduct> orderProducts = new ArrayList<>();
-        for (OrderedProductDto product : products) {
-            ProductEntity productEntity = new ProductEntity(product.getName(), product.getDescription(), product.getPrice());
-            OrderProduct orderProduct = new OrderProduct(order, productEntity, product.getQuantity());
-            productEntity.getOrders().add(orderProduct);
+        for (int i = 0; i < orderedProductsDto.size(); i ++) {
+            OrderProduct orderProduct = createOrderProduct(orderedProductsDto.get(i).getId(), order, productEntityList.get(i), orderedProductsDto.get(i).getQuantity());
             orderProducts.add(orderProduct);
         }
         return orderProducts;
+    }
+
+    private void addOrderToProduct(List<ProductEntity> productEntityList, List<OrderProduct> orderProducts){
+        for (ProductEntity productEntity : productEntityList) {
+            for (OrderProduct orderProduct : orderProducts) {
+                if (orderProduct.getProduct().getName().equals(productEntity.getName())) {
+                    productEntity.getOrders().add(orderProduct);
+                }
+            }
+        }
+    }
+
+    private OrderEntity createOrder(OrderDto orderDto){
+        return (orderDto.getId() == 0) ? new OrderEntity() : new OrderEntity(orderDto.getId());
+    }
+
+    private OrderProduct createOrderProduct(Long id, OrderEntity order, ProductEntity productEntity, int quantity){
+        return (id == null) ? new OrderProduct(order, productEntity, quantity) : new OrderProduct(id, order, productEntity, quantity);
     }
 }

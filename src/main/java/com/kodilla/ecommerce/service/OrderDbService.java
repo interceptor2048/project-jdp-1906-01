@@ -1,15 +1,21 @@
 package com.kodilla.ecommerce.service;
 
 import com.kodilla.ecommerce.domain.OrderEntity;
+import com.kodilla.ecommerce.domain.OrderProduct;
+import com.kodilla.ecommerce.domain.ProductEntity;
 import com.kodilla.ecommerce.domain.UserEntity;
 import com.kodilla.ecommerce.repository.OrderEntityRepository;
+import com.kodilla.ecommerce.repository.OrderProductEntityRepository;
+import com.kodilla.ecommerce.repository.ProductEntityRepository;
 import com.kodilla.ecommerce.repository.UserEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class OrderDbService {
 
@@ -19,6 +25,12 @@ public class OrderDbService {
     @Autowired
     private UserEntityRepository userEntityRepository;
 
+    @Autowired
+    private ProductEntityRepository productEntityRepository;
+
+    @Autowired
+    private OrderProductEntityRepository orderProductEntityRepository;
+
     public List<OrderEntity> getAllOrders(){
         return orderEntityRepository.findAll();
     }
@@ -27,6 +39,7 @@ public class OrderDbService {
         return orderEntityRepository.findById(id);
     }
 
+    @Transactional
     public OrderEntity addOrder(final OrderEntity order){
         return orderEntityRepository.save(order);
     }
@@ -37,5 +50,25 @@ public class OrderDbService {
 
     public Optional<UserEntity> findUser(final String userName) {
         return userEntityRepository.findByUserName(userName);
+    }
+
+    public Optional<OrderEntity> findOrder(final Long id) {
+        return orderEntityRepository.findById(id);
+    }
+
+    public Optional<ProductEntity> findProduct(final String productName) {
+        return productEntityRepository.findProductEntitiesByName(productName);
+    }
+
+    public Optional<OrderProduct> findOrderProduct(final Long id) {
+        return orderProductEntityRepository.findById(id);
+    }
+
+    public OrderProduct saveOrderProduct(final OrderProduct orderProduct){
+        return orderProductEntityRepository.save(orderProduct);
+    }
+
+    public List<OrderEntity> findAllOrders(){
+        return orderEntityRepository.findAll();
     }
 }
