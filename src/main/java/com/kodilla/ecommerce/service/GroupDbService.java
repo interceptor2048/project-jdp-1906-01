@@ -36,8 +36,6 @@ public class GroupDbService {
 
             public Optional<GroupEntity> findGroup(final String groupName) {
                 return groupEntityRepository.findByName(groupName);
-
         }
-
-    }
+}
 
