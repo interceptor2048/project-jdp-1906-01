@@ -14,5 +14,5 @@ import java.util.List;
 @Setter
 public class GroupDto {
     private Long id;
-    private String group_name;
+    private String groupName;
 }
