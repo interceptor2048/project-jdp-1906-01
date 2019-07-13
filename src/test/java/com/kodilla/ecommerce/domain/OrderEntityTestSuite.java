@@ -21,7 +21,6 @@ public class OrderEntityTestSuite {
     @Autowired
     private UserEntityRepository userEntityRepository;
 
-    @Ignore
     @Test
     public void testAddingSingleOrderToOrderEntity() {
         //given
@@ -36,17 +35,14 @@ public class OrderEntityTestSuite {
         //when
         userEntityRepository.save(user);
         orderEntityRepository.save(order1);
-        orderEntityRepository.save(order2);
         long id1 = order1.getId();
-        long id2 = order2.getId();
         long userId = user.getId();
         int orderQuantity = orderEntityRepository.findAll().size();
 
         //then
         assertNotEquals(0L, id1);
-        assertNotEquals(0L, id2);
         assertNotEquals(0L, userId);
-        assertEquals(2, orderQuantity);
+        assertEquals(1, orderQuantity);
     }
 
     @Test
