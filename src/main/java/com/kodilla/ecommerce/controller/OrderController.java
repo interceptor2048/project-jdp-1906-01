@@ -34,13 +34,13 @@ public class OrderController {
     }
 
     @GetMapping(value = "getOrder")
-    public OrderDto getOrder(@RequestParam("orderId") Long orderId) throws OrderNotFoundException {
+    public OrderDto getOrder(@RequestParam("orderId") Long orderId) {
         return orderMapper.mapToOrderDto(orderDbService.getOrder(orderId).orElseThrow(OrderNotFoundException::new));
     }
 
     @Transactional
     @PostMapping(value = "createOrder", consumes = APPLICATION_JSON_VALUE)
-    public void createOrder(@RequestBody OrderDto orderDto) throws UserNotFoundException{
+    public void createOrder(@RequestBody OrderDto orderDto) {
         UserEntity user = orderDbService.findUser(orderDto.getUser_name()).orElseThrow(UserNotFoundException::new);
         checkIfProductsExist(orderDto);
         List<ProductEntity> productEntityList = createProductList(orderDto);
@@ -57,7 +57,7 @@ public class OrderController {
     }
 
     @DeleteMapping(value = "deleteOrder")
-    public void deleteOrder(@RequestParam("orderId") Long orderId) throws OrderNotFoundException {
+    public void deleteOrder(@RequestParam("orderId") Long orderId) {
         if (!orderDbService.getOrder(orderId).isPresent()) {
             throw new OrderNotFoundException();
         }
@@ -71,12 +71,12 @@ public class OrderController {
         return productEntityList;
     }
 
-    private void checkIfProductsExist (OrderDto orderDto) {
+    private void checkIfProductsExist(OrderDto orderDto) {
         orderDto.getProducts().stream()
                 .forEach(product -> orderDbService.findProduct(product.getName()).orElseThrow(ProductNotFoundException::new));
     }
 
-    private OrderEntity createOrder(Long id, UserEntity user, OrderDto orderDto){
+    private OrderEntity createOrder(Long id, UserEntity user, OrderDto orderDto) {
         List<ProductEntity> productEntityList = createProductList(orderDto);
         OrderEntity order = orderDbService.findOrder(id).orElseThrow(OrderNotFoundException::new);
         order.getProducts().clear();

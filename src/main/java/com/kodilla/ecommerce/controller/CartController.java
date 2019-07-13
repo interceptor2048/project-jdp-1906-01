@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-
 @RestController
 @RequestMapping("/v1/ecommerce/cart")
 public class CartController {
@@ -69,10 +67,7 @@ public class CartController {
     }
 
     private CartProduct addProductToCartEntity(CartEntity cart, CartProductDto cartProductDto) {
-        System.out.println(cartProductDto.getId() + " " + cartProductDto.getName() + " " + cartProductDto.getPrice() + " " + cartProductDto.getDescription() + " " + cartProductDto.getQuantity());
-        System.out.println(cart.getUser().getUserName());
         ProductEntity product = cartDbService.findProduct(cartProductDto.getName()).orElseThrow(CartNotFoundException::new);
-        System.out.println(product.getName() + " " + product.getDescription() + " " + product.getPrice());
         CartProduct cartProduct = new CartProduct(cart, product, cartProductDto.getQuantity());
         product.getProductsInCart().add(cartProduct);
         cart.getProducts().add(cartProduct);
