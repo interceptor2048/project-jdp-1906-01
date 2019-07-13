@@ -2,6 +2,7 @@ package com.kodilla.ecommerce.domain;
 
 import com.kodilla.ecommerce.repository.OrderEntityRepository;
 import com.kodilla.ecommerce.repository.UserEntityRepository;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class OrderEntityTestSuite {
     @Autowired
     private UserEntityRepository userEntityRepository;
 
+    @Ignore
     @Test
     public void testAddingSingleOrderToOrderEntity() {
         //given
