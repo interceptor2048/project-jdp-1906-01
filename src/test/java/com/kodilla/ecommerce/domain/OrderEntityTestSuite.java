@@ -37,12 +37,10 @@ public class OrderEntityTestSuite {
         orderEntityRepository.save(order1);
         long id1 = order1.getId();
         long userId = user.getId();
-        int orderQuantity = orderEntityRepository.findAll().size();
 
         //then
         assertNotEquals(0L, id1);
         assertNotEquals(0L, userId);
-        assertEquals(1, orderQuantity);
     }
 
     @Test
