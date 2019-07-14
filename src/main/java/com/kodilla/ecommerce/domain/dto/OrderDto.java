@@ -14,6 +14,6 @@ import java.util.Set;
 @Getter
 public class OrderDto {
     private long id;
-    private String user_name;
+    private String userName;
     private List<OrderedProductDto> products;
 }
