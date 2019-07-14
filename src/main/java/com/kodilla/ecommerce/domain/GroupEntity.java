@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -21,7 +22,7 @@ public class GroupEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "GROUP_ID", unique = true, nullable = false)
+    @Column(name = "GROUP_ID", unique = true)
     private Long id;
 
     @Column(name = "NAME")
