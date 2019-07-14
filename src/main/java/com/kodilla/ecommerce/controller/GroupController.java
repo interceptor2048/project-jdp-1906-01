@@ -21,7 +21,7 @@ public class GroupController {
 
     @GetMapping(value = "getGroup")
     public GroupDto getGroup(@RequestParam("groupId") Long groupId) {
-        return new GroupDto(1L);
+        return new GroupDto(1L, "testname");
     }
 
     @PutMapping(value = "updateGroup")

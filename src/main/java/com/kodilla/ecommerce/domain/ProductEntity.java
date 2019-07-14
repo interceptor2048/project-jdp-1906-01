@@ -1,12 +1,10 @@
 package com.kodilla.ecommerce.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.*;
 
 //@AllArgsConstructor
@@ -26,7 +24,7 @@ public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PRODUCT_ID", unique = true)
+    @Column(name = "PRODUCT_ID", unique = true, nullable = false)
     private Long id;
 
     @Column(name = "NAME")
@@ -57,8 +55,8 @@ public class ProductEntity {
     )
     private List<CartProduct> productsInCart = new ArrayList<>();
 
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "GROUP")
+//    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "GROUP_ID")
 //    private GroupEntity group;
 }
 
