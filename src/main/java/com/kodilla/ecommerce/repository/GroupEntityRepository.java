@@ -2,13 +2,16 @@ package com.kodilla.ecommerce.repository;
 
 import com.kodilla.ecommerce.domain.GroupEntity;
 import org.springframework.data.repository.CrudRepository;
+
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
-    @Repository
-    @Transactional
+
+@Repository
+@Transactional
 public interface GroupEntityRepository extends CrudRepository<GroupEntity, Long> {
 
     @Override
