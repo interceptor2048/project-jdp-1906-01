@@ -1,19 +1,19 @@
 package com.kodilla.ecommerce.domain;
 
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@NoArgsConstructor
 @Entity
 public class GenericEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String value;
-
-    public GenericEntity() {
-    }
 
     public String getValue() {
         return value;

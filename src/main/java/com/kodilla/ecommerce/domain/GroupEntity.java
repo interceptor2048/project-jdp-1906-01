@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -24,8 +26,6 @@ public class GroupEntity {
         this.name = name;
     }
 
-    //  TO BE ADDED ONCE PRODUCT ENTITY IS CREATED AND MERGED
-//
-//  @OneToMany(mappedBy = "")
-//  private List<> = new ArrayList<>();
+  @OneToMany(mappedBy = "group")
+  private List<ProductEntity> productsInGroup = new ArrayList<>();
 }
