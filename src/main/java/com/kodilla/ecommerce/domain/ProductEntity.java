@@ -55,8 +55,8 @@ public class ProductEntity {
     )
     private List<CartProduct> productsInCart = new ArrayList<>();
 
-//    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "GROUP_ID")
-//    private GroupEntity group;
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "GROUP_ID")
+    private GroupEntity group;
 }
 
