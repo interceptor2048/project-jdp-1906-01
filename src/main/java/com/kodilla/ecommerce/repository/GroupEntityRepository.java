@@ -20,6 +20,6 @@ public interface GroupEntityRepository extends CrudRepository<GroupEntity, Long>
     @Override
     GroupEntity save(GroupEntity group);
 
-    Optional<GroupEntity> findByName( String groupName);
+    Optional<GroupEntity> findByName(String groupName);
 }
 
