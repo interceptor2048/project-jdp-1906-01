@@ -1,6 +1,5 @@
 package com.kodilla.ecommerce.domain;
 
-
 import com.kodilla.ecommerce.service.GroupDbService;
 import org.junit.Assert;
 import org.junit.Test;
