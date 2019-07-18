@@ -22,9 +22,9 @@ public class GroupEntityTestSuite {
     public void testGetGroups() {
         //Given
         GroupEntity group1 = new GroupEntity("Group1");
-        // groupDbService.saveGroup(group1);
+        groupDbService.saveGroup(group1);
         GroupEntity group2 = new GroupEntity("Group2");
-        // groupDbService.saveGroup(group2);
+        groupDbService.saveGroup(group2);
         GroupEntity group3 = new GroupEntity("Group3");
         groupDbService.saveGroup(group3);
         //When
